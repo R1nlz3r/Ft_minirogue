@@ -2,8 +2,8 @@ import main
 import curses
 import utils
 
-SCR_SIZE_Y = 30
-SCR_SIZE_X = 60
+SCR_SIZE_Y = 70
+SCR_SIZE_X = 160
 
 player = u'\u263A'.encode('utf-8')
 
