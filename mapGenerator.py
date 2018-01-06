@@ -18,7 +18,6 @@ def addRoom(map, room1_start_x, room1_start_y, size_x, size_y):
 def initMap():
     map = [' '] * (display.SCR_SIZE_X * display.SCR_SIZE_Y)
 
-    map = addRoom(map, 10, 10, 15, 8)
-    print(map)
+    map = addRoom(map, 8, 10, 15, 8)
 
     return map
