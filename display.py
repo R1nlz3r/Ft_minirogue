@@ -5,6 +5,8 @@ import utils
 SCR_SIZE_Y = 30
 SCR_SIZE_X = 60
 
+player = u'\u263A'.encode('utf-8')
+
 def initCurses():
     stdscr = curses.initscr()
     curses.start_color()
@@ -19,11 +21,11 @@ def initCurses():
     return stdscr
 
 def addMapToWin(map, win):
-    for x in range (SCR_SIZE_X):
-        for y in range (SCR_SIZE_Y):
+    for x in range (0, SCR_SIZE_X):
+        for y in range (0, SCR_SIZE_Y):
             pos = utils.getPosInList(x, y)
             if (map[pos] == '#'):
-                win.addch(y, x, '#', curses.color_pair(2))
+                win.addstr(y, x, "#", curses.color_pair(2))
             if (map[pos] == '.'):
-                win.addch(y, x, '.', curses.color_pair(3))
+                win.addstr(y, x, ".", curses.color_pair(3))
     return win
