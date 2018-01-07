@@ -55,6 +55,8 @@ def addMapToWin(map, win):
                 win.addstr(y, x, "B")
             if (map[pos] == 'S'):
                 win.addstr(y, x, "S")
+            if (map[pos] == u'\u25E2'.encode('utf-8')):
+                win.addstr(y, x, u'\u25E2'.encode('utf-8'), curses.color_pair(5))
             if (map[pos] == door):
                 win.addstr(y, x, door, curses.color_pair(2))
             if (map[pos] == path):

@@ -4,12 +4,22 @@ import display
 import locale
 import utils
 
+import time
+
 locale.setlocale(locale.LC_ALL, '')
 
 def run(win, map, stdscr):
+    map = mapGenerator.initMap()
     player = utils.getFirstStartingPos(map)
 
-    c = 0;
+    win.clear()
+    win = display.addMapToWin(map, win)
+    win = display.addStatsToWin(win, player)
+    win.addstr(player[1], player[0], display.player, curses.color_pair(1))
+    win.refresh()
+
+    time.sleep(1)
+    c = stdscr.getch()
     while True:
         pos = utils.getPosInList(player[0], player[1])
         if c == 27:
@@ -62,6 +72,10 @@ def run(win, map, stdscr):
                 player[0] -= 1
 
         pos = utils.getPosInList(player[0], player[1])
+        if map[pos] == u'\u25E2'.encode('utf-8'):
+            win.clear()
+            run(win, map, stdscr)
+            break
         if map[pos] == '*':
             map[pos] = '.'
             player[2] += 10
@@ -80,7 +94,6 @@ def run(win, map, stdscr):
 
 def main():
     stdscr = display.initCurses()
-    map = mapGenerator.initMap()
     win = curses.newwin(display.SCR_SIZE_Y, display.SCR_SIZE_X)
     run(win, map, stdscr)
 

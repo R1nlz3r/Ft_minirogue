@@ -10,6 +10,21 @@ def initMap():
     map = placePaths(rooms, map)
     map = placeObjects(map)
     map = placeAi(map)
+    map = placeTrapdoor(map)
+    return map
+
+def placeTrapdoor(map):
+    boo = 0
+    while boo == 0:
+        for x in range (0, display.SCR_SIZE_X):
+            for y in range (0, display.SCR_SIZE_Y - 1):
+                pos = utils.getPosInList(x, y)
+                if (map[pos] == '.' and random.randint(0, 100000) == 1):
+                    map[pos] = u'\u25E2'.encode('utf-8')
+                    boo = 1
+                    break
+                ++y
+            ++x
     return map
 
 def placeAi(map):
@@ -28,7 +43,7 @@ def placeObjects(map):
             pos = utils.getPosInList(x, y)
             if (map[pos] == '.' and random.randint(0, 140) == 1):
                 map[pos] = "*"
-            if (map[pos] == '.' and random.randint(0, 150) == 1):
+            if (map[pos] == '.' and random.randint(0, 250) == 1):
                 map[pos] = u'\u2667'.encode('utf-8')
     return map
 
@@ -348,6 +363,3 @@ def draw_path_south(map, pos_x_one, pos_y_one, pos_x_two, pos_y_two):
     while current_pos_y < pos_y_two:
         map[utils.getPosInList(current_pos_x, current_pos_y)] = display.path
         current_pos_y += 1
-
-
-
