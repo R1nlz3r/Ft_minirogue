@@ -182,7 +182,8 @@ def placePaths(rooms, map):
         for i in range (12):
             if (paths[i] == True):
                 map = placeDoors(i, rooms, map)
-        return map
+
+    return map
 
 def placeDoors(pathNumber, rooms, map):
     roomOne = 0
@@ -227,45 +228,95 @@ def placeDoors(pathNumber, rooms, map):
     return placeDoorsOnMap(roomOne, roomTwo, rooms, map)
 
 def placeDoorsOnMap(roomOne, roomTwo, rooms, map):
+    pos_x_one = 0
+    pos_y_one = 0
+    pos_x_two = 0
+    pos_y_two = 0
     if (roomTwo - roomOne == 1):
         if rooms[roomOne].size_x > 1:
-            pos_x = rooms[roomOne].room_start_x + rooms[roomOne].size_x - 1
-            pos_y = rooms[roomOne].room_start_y + random.randint(1, rooms[roomOne].size_y - 1)
+            pos_x_one = rooms[roomOne].room_start_x + rooms[roomOne].size_x - 1
+            pos_y_one = rooms[roomOne].room_start_y + random.randint(2, rooms[roomOne].size_y - 2)
+            pos = utils.getPosInList(pos_x_one, pos_y_one)
+            map[pos] = display.door
         else:
-            pos_x = rooms[roomOne].room_start_x
-            pos_y = rooms[roomOne].room_start_y
-
-        pos = utils.getPosInList(pos_x, pos_y)
-        map[pos] = display.door
+            pos_x_one = rooms[roomOne].room_start_x
+            pos_y_one = rooms[roomOne].room_start_y
+            pos = utils.getPosInList(pos_x_one, pos_y_one)
+            map[pos] = display.path
 
         if rooms[roomTwo].size_x > 1:
-            pos_x = rooms[roomTwo].room_start_x
-            pos_y = rooms[roomTwo].room_start_y + random.randint(1, rooms[roomTwo].size_y - 1)
+            pos_x_two = rooms[roomTwo].room_start_x
+            pos_y_two = rooms[roomTwo].room_start_y + random.randint(2, rooms[roomTwo].size_y - 2)
+            pos = utils.getPosInList(pos_x_two, pos_y_two)
+            map[pos] = display.door
         else:
-            pos_x = rooms[roomTwo].room_start_x
-            pos_y = rooms[roomTwo].room_start_y
-
-        pos = utils.getPosInList(pos_x, pos_y)
-        map[pos] = display.door
+            pos_x_two = rooms[roomTwo].room_start_x
+            pos_y_two = rooms[roomTwo].room_start_y
+            pos = utils.getPosInList(pos_x_two, pos_y_two)
+            map[pos] = display.path
+        draw_path_east(map, pos_x_one, pos_y_one, pos_x_two, pos_y_two)
     else:
         if rooms[roomOne].size_x > 1:
-            pos_x = rooms[roomOne].room_start_x + random.randint(1, rooms[roomOne].size_x - 1)
-            pos_y = rooms[roomOne].room_start_y + rooms[roomOne].size_y - 1
+            pos_x_one = rooms[roomOne].room_start_x + random.randint(2, rooms[roomOne].size_x - 2)
+            pos_y_one = rooms[roomOne].room_start_y + rooms[roomOne].size_y - 1
+            pos = utils.getPosInList(pos_x_one, pos_y_one)
+            map[pos] = display.door
         else:
-            pos_x = rooms[roomOne].room_start_x
-            pos_y = rooms[roomOne].room_start_y
-
-        pos = utils.getPosInList(pos_x, pos_y)
-        map[pos] = display.door
+            pos_x_one = rooms[roomOne].room_start_x
+            pos_y_one = rooms[roomOne].room_start_y
+            pos = utils.getPosInList(pos_x_one, pos_y_one)
+            map[pos] = display.path
 
         if rooms[roomTwo].size_x > 1:
-            pos_x = rooms[roomTwo].room_start_x + random.randint(1, rooms[roomTwo].size_x - 1)
-            pos_y = rooms[roomTwo].room_start_y
+            pos_x_two = rooms[roomTwo].room_start_x + random.randint(2, rooms[roomTwo].size_x - 2)
+            pos_y_two = rooms[roomTwo].room_start_y
+            pos = utils.getPosInList(pos_x_two, pos_y_two)
+            map[pos] = display.door
         else:
-            pos_x = rooms[roomTwo].room_start_x
-            pos_y = rooms[roomTwo].room_start_y
+            pos_x_two = rooms[roomTwo].room_start_x
+            pos_y_two = rooms[roomTwo].room_start_y
+            pos = utils.getPosInList(pos_x_two, pos_y_two)
+            map[pos] = display.path
+        draw_path_south(map, pos_x_one, pos_y_one, pos_x_two, pos_y_two)
 
-        pos = utils.getPosInList(pos_x, pos_y)
-        map[pos] = display.door
     return map
+
+def draw_path_east(map, pos_x_one, pos_y_one, pos_x_two, pos_y_two):
+    move_before_turn = random.randint(1, pos_x_two - pos_x_one - 1)
+    current_pos_x = pos_x_one
+    current_pos_y = pos_y_one
+
+    for i in range(move_before_turn):
+        current_pos_x += 1
+        map[utils.getPosInList(current_pos_x, current_pos_y)] = display.path
+    while current_pos_y < pos_y_two:
+        current_pos_y += 1
+        map[utils.getPosInList(current_pos_x, current_pos_y)] = display.path
+    while current_pos_y > pos_y_two:
+        current_pos_y -= 1
+        map[utils.getPosInList(current_pos_x, current_pos_y)] = display.path
+    while current_pos_x < pos_x_two:
+        map[utils.getPosInList(current_pos_x, current_pos_y)] = display.path
+        current_pos_x += 1
+
+def draw_path_south(map, pos_x_one, pos_y_one, pos_x_two, pos_y_two):
+    move_before_turn = random.randint(1, pos_y_two - pos_y_one - 1)
+    current_pos_x = pos_x_one
+    current_pos_y = pos_y_one
+
+    for i in range(move_before_turn):
+        current_pos_y += 1
+        map[utils.getPosInList(current_pos_x, current_pos_y)] = display.path
+
+    while current_pos_x < pos_x_two:
+        current_pos_x += 1
+        map[utils.getPosInList(current_pos_x, current_pos_y)] = display.path
+    while current_pos_x > pos_x_two:
+        current_pos_x -= 1
+        map[utils.getPosInList(current_pos_x, current_pos_y)] = display.path
+    while current_pos_y < pos_y_two:
+        map[utils.getPosInList(current_pos_x, current_pos_y)] = display.path
+        current_pos_y += 1
+
+
 
