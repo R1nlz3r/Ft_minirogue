@@ -34,6 +34,9 @@ def run(win, map, stdscr, player):
     win = display.addMapToWin(map, win)
     win = display.addStatsToWin(win, player)
     win.addstr(player.pos_y, player.pos_x, display.player, curses.color_pair(1))
+    for i in range(20):
+        if not (monsters[i].type == 'A'):
+            win.addstr(monsters[i].pos_y, monsters[i].pos_x, monsters[i].type, curses.color_pair(0))
     win.refresh()
 
     time.sleep(1)
