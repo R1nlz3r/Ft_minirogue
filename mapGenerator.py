@@ -2,11 +2,38 @@ import utils
 import display
 import random
 
+def initMap():
+    map = [' '] * (display.SCR_SIZE_X * display.SCR_SIZE_Y)
+    rooms = placeRooms()
+    for i in range(9):
+        map = addRoom(map, rooms[i])
+    map = placePaths(rooms, map)
+    map = placeObjects(map)
+    map = placeAi(map)
+    return map
+
+def placeAi(map):
+    for x in range (0, display.SCR_SIZE_X):
+        for y in range (0, display.SCR_SIZE_Y - 1):
+            pos = utils.getPosInList(x, y)
+            if (map[pos] == '.' and random.randint(0, 200) == 1):
+                map[pos] = 'B'
+            if (map[pos] == '.' and random.randint(0, 200) == 1):
+                map[pos] = 'S'
+    return map
+
+def placeObjects(map):
+    for x in range (0, display.SCR_SIZE_X):
+        for y in range (0, display.SCR_SIZE_Y - 1):
+            pos = utils.getPosInList(x, y)
+            if (map[pos] == '.' and random.randint(0, 140) == 1):
+                map[pos] = "*"
+            if (map[pos] == '.' and random.randint(0, 150) == 1):
+                map[pos] = u'\u2667'.encode('utf-8')
+    return map
 
 def addRoom(map, room):
-    if (room.size_x == 1):
-        map[utils.getPosInList(room.room_start_x, room.room_start_y)] = '*'
-    else:
+    if (room.size_x != 1):
         for x in range(room.room_start_x, room.room_start_x + room.size_x):
             for y in range(room.room_start_y, room.room_start_y + room.size_y):
                 pos = utils.getPosInList(x, y)
@@ -14,20 +41,21 @@ def addRoom(map, room):
                     map[pos] = "#"
                 elif (y == room.room_start_y or y == room.room_start_y + room.size_y - 1):
                     map[pos] = "#"
+                if (x == room.room_start_x and y == room.room_start_y):
+                    map[pos] = u'\u2554'.encode('utf-8')
+                elif (x == room.room_start_x + room.size_x - 1 and y == room.room_start_y + room.size_y - 1):
+                    map[pos] = u'\u255D'.encode('utf-8')
+                elif (x == room.room_start_x + room.size_x - 1 and y == room.room_start_y):
+                    map[pos] = u'\u2557'.encode('utf-8')
+                elif (x == room.room_start_x and y == room.room_start_y + room.size_y - 1):
+                    map[pos] = u'\u255A'.encode('utf-8')
+                elif (x == room.room_start_x or x == room.room_start_x + room.size_x - 1):
+                    map[pos] = u'\u2551'.encode('utf-8')
+                elif (y == room.room_start_y or y == room.room_start_y + room.size_y - 1):
+                    map[pos] = u'\u2550'.encode('utf-8')
                 else:
                     map[pos] = "."
     return map
-
-
-def initMap():
-    map = [' '] * (display.SCR_SIZE_X * display.SCR_SIZE_Y)
-
-    rooms = placeRooms()
-    for i in range(9):
-        map = addRoom(map, rooms[i])
-    map = placePaths(rooms, map)
-    return map
-
 
 def isTwoRoomsOfOneInSameColumn(a, b, c):
     if ((a + b == 2) or (a + c == 2) or (b + c == 2)):
@@ -48,11 +76,14 @@ def placeRooms():
             size_x[i] = 1
         rooms[i] = utils.room(i)
 
-    if (isTwoRoomsOfOneInSameColumn(size_x[0] * size_y[0], size_x[3] * size_y[3], size_x[6] * size_y[6])):
+    if (isTwoRoomsOfOneInSameColumn(size_x[0] * size_y[0], \
+        size_x[3] * size_y[3], size_x[6] * size_y[6])):
         return placeRooms()
-    if (isTwoRoomsOfOneInSameColumn(size_x[1] * size_y[1], size_x[4] * size_y[4], size_x[7] * size_y[7])):
+    if (isTwoRoomsOfOneInSameColumn(size_x[1] * size_y[1], \
+        size_x[4] * size_y[4], size_x[7] * size_y[7])):
         return placeRooms()
-    if (isTwoRoomsOfOneInSameColumn(size_x[2] * size_y[2], size_x[5] * size_y[5], size_x[8] * size_y[8])):
+    if (isTwoRoomsOfOneInSameColumn(size_x[2] * size_y[2], \
+        size_x[5] * size_y[5], size_x[8] * size_y[8])):
         return placeRooms()
 
     for i in range(3):
