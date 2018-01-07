@@ -2,35 +2,54 @@ import utils
 import display
 import random
 
+def initMap():
+    map = [' '] * (display.SCR_SIZE_X * display.SCR_SIZE_Y)
+    map = placeRooms(map)
+    map = placeObjects(map)
+    map = placeAi(map)
+    return map
+
+def placeAi(map):
+    for x in range (0, display.SCR_SIZE_X):
+        for y in range (0, display.SCR_SIZE_Y - 1):
+            pos = utils.getPosInList(x, y)
+            if (map[pos] == '.' and random.randint(0, 200) == 1):
+                map[pos] = 'B'
+            if (map[pos] == '.' and random.randint(0, 200) == 1):
+                map[pos] = 'S'
+    return map
+
+def placeObjects(map):
+    for x in range (0, display.SCR_SIZE_X):
+        for y in range (0, display.SCR_SIZE_Y - 1):
+            pos = utils.getPosInList(x, y)
+            if (map[pos] == '.' and random.randint(0, 140) == 1):
+                map[pos] = "*"
+            if (map[pos] == '.' and random.randint(0, 150) == 1):
+                map[pos] = u'\u2667'.encode('utf-8')
+    return map
 
 def addRoom(map, room_start_x, room_start_y, size_x, size_y):
-    if (size_x == 1):
-        map[utils.getPosInList(room_start_x, room_start_y)] = '*'
-    else:
+    if (size_x != 1):
         for x in range(room_start_x, room_start_x + size_x):
             print("\n")
             for y in range(room_start_y, room_start_y + size_y):
                 pos = utils.getPosInList(x, y)
-                if (x == room_start_x or x == room_start_x + size_x - 1):
-                    map[pos] = "#"
+                if (x == room_start_x and y == room_start_y):
+                    map[pos] = u'\u2554'.encode('utf-8')
+                elif (x == room_start_x + size_x - 1 and y == room_start_y + size_y - 1):
+                    map[pos] = u'\u255D'.encode('utf-8')
+                elif (x == room_start_x + size_x - 1 and y == room_start_y):
+                    map[pos] = u'\u2557'.encode('utf-8')
+                elif (x == room_start_x and y == room_start_y + size_y - 1):
+                    map[pos] = u'\u255A'.encode('utf-8')
+                elif (x == room_start_x or x == room_start_x + size_x - 1):
+                    map[pos] = u'\u2551'.encode('utf-8')
                 elif (y == room_start_y or y == room_start_y + size_y - 1):
-                    map[pos] = "#"
+                    map[pos] = u'\u2550'.encode('utf-8')
                 else:
                     map[pos] = "."
     return map
-
-
-def initMap():
-    map = [' '] * (display.SCR_SIZE_X * display.SCR_SIZE_Y)
-
-    # map = addRoom(map, 50, 15, 15, 8)
-
-    # map = addRoom(map, 5, 6, 40, 4)
-
-    map = placeRooms(map)
-
-    return map
-
 
 def isTwoRoomsOfOneInSameColumn(a, b, c):
     if ((a + b == 2) or (a + c == 2) or (b + c == 2)):
@@ -50,11 +69,14 @@ def placeRooms(map):
             size_y[i] = 1
             size_x[i] = 1
 
-    if (isTwoRoomsOfOneInSameColumn(size_x[0] * size_y[0], size_x[3] * size_y[3], size_x[6] * size_y[6])):
+    if (isTwoRoomsOfOneInSameColumn(size_x[0] * size_y[0], \
+        size_x[3] * size_y[3], size_x[6] * size_y[6])):
         return placeRooms(map)
-    if (isTwoRoomsOfOneInSameColumn(size_x[1] * size_y[1], size_x[4] * size_y[4], size_x[7] * size_y[7])):
+    if (isTwoRoomsOfOneInSameColumn(size_x[1] * size_y[1], \
+        size_x[4] * size_y[4], size_x[7] * size_y[7])):
         return placeRooms(map)
-    if (isTwoRoomsOfOneInSameColumn(size_x[2] * size_y[2], size_x[5] * size_y[5], size_x[8] * size_y[8])):
+    if (isTwoRoomsOfOneInSameColumn(size_x[2] * size_y[2], \
+        size_x[5] * size_y[5], size_x[8] * size_y[8])):
         return placeRooms(map)
 
     for i in range(3):
@@ -73,9 +95,6 @@ def placeRooms(map):
                 random_size_y = j * 8
             else:
                 random_size_y = random.randint(room_start_y_min, room_start_y_max)
-                # if (random_size_y > 26):
-                #   print(room_start_y_min)
-                #   print(room_start_y_max)
             map = addRoom(map, random_size_x, random_size_y, room_size_x, room_size_y)
 
     return map
