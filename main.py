@@ -8,10 +8,13 @@ locale.setlocale(locale.LC_ALL, '')
 
 def run(win, map, stdscr):
     player = utils.getFirstStartingPos(map)
+    monsters = [utils.monster(0)] * 20
+
 
     c = 0
     while True:
         pos = utils.getPosInList(player.pos_x, player.pos_y)
+        for ()
         if c == 27:
             win.clear()
             win.refresh()

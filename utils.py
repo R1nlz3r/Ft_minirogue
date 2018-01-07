@@ -45,6 +45,7 @@ class monster:
         s.type = 'A'
         s.attack = 0
         s.ennemy = False
+        s.life = 0
 
 class player:
     def __init__(s):
