@@ -1,23 +1,64 @@
 import display
+import random
 
 BAT = 'B'
 SNAKE = 'S'
 
+def is_monster(pos, monsters):
+    for i in range(20):
+        pos_monster = getPosInList(monsters[i].pos_x, monsters[i].pos_y)
+        if (pos_monster == pos and monsters[i].life > 0):
+            return True
+    return False
+
+def which_monster(pos, monsters):
+    for i in range(20):
+        pos_monster = getPosInList(monsters[i].pos_x, monsters[i].pos_y)
+        if (pos_monster == pos):
+            return i
+    return 19
+
 def getPosInList(x, y):
     return (y * display.SCR_SIZE_X + x)
+
+def getRandomDot(map):
+    pos_monster = [0] * 2
+    nbDot = 0
+
+    for y in range (display.SCR_SIZE_Y - 1):
+        for x in range (display.SCR_SIZE_X):
+            pos = getPosInList(x, y)
+            if (map[pos] == '.'):
+                nbDot += 1
+
+    chosen_dot = random.randint(1, nbDot)
+
+    nbDot = 0
+
+    for y in range(display.SCR_SIZE_Y - 1):
+        for x in range(display.SCR_SIZE_X):
+            pos = getPosInList(x, y)
+            if (map[pos] == '.'):
+                nbDot += 1
+            if (nbDot == chosen_dot):
+                pos_monster[0] = x
+                pos_monster[1] = y
+                return pos_monster
+
+    return pos_monster
 
 def getFirstStartingPos(map):
     playr = player()
     for x in range (display.SCR_SIZE_X):
         for y in range (display.SCR_SIZE_Y):
             if (map[getPosInList(x, y)] == '.'):
-                player.pos_x = x
-                player.pos_y = y
-    player.gold = 0 # gold
-    player.life = 100 # life
-    player.maxLife = 100 # maxlife
+                playr.pos_x = x
+                playr.pos_y = y
+    playr.gold = 0
+    playr.life = 10
+    playr.maxLife = 100
 
-    return player
+    return playr
 
 def you_died(curses, win, stdscr, player):
     win.clear()
@@ -54,3 +95,4 @@ class player:
         s.life = 100
         s.maxLife = 100
         s.gold = 0
+        s.attack = 3

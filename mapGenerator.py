@@ -9,7 +9,7 @@ def initMap():
         map = addRoom(map, rooms[i])
     map = placePaths(rooms, map)
     map = placeObjects(map)
-    map = placeAi(map)
+    #map = placeAi(map)
     return map
 
 def placeAi(map):
