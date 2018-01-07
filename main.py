@@ -9,6 +9,7 @@ locale.setlocale(locale.LC_ALL, '')
 def run(win, map, stdscr):
     player = utils.getFirstStartingPos(map)
 
+    c = 0
     while True:
         pos = utils.getPosInList(player[0], player[1])
         if c == 27:
