@@ -7,10 +7,7 @@ import utils
 locale.setlocale(locale.LC_ALL, '')
 
 def run(win, map, stdscr):
-    player = utils.getFirstStartingPos(map) 
-
-    win.addstr(player[1], player[0], display.player, curses.color_pair(1))
-    win.refresh()
+    player = utils.getFirstStartingPos(map)
 
     while True:
         c = stdscr.getch()
@@ -18,16 +15,16 @@ def run(win, map, stdscr):
         if c == 27:
             break
         if c == curses.KEY_DOWN and player[1] < display.SCR_SIZE_Y - 2:
-            if (map[pos + display.SCR_SIZE_X] != '#'):
+            if not (map[pos + display.SCR_SIZE_X] == "#" or map[pos + display.SCR_SIZE_X] == ' '):
                 player[1] += 1
         if c == curses.KEY_UP and player[1] > 0:
-            if (map[pos - display.SCR_SIZE_X] != '#'):
+            if not (map[pos - display.SCR_SIZE_X] == '#' or map[pos - display.SCR_SIZE_X] == ' '):
                 player[1] -= 1
         if c == curses.KEY_RIGHT and player[0] < display.SCR_SIZE_X - 2:
-            if (map[pos + 1] != '#'):
+            if not (map[pos + 1] == '#' or map[pos + 1] == ' '):
                 player[0] += 1
         if c == curses.KEY_LEFT and player[0] > 0:
-            if (map[pos - 1] != '#'):
+            if not (map[pos - 1] == '#' or map[pos - 1] == ' '):
                 player[0] -= 1
         win.clear()
         win = display.addMapToWin(map, win)
@@ -36,7 +33,6 @@ def run(win, map, stdscr):
 
 def main():
     stdscr = display.initCurses()
-
     map = mapGenerator.initMap()
 
     win = curses.newwin(display.SCR_SIZE_Y, display.SCR_SIZE_X)

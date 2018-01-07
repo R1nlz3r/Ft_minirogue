@@ -2,10 +2,12 @@ import main
 import curses
 import utils
 
-SCR_SIZE_Y = 30
-SCR_SIZE_X = 60
+SCR_SIZE_Y = 26
+SCR_SIZE_X = 80
 
 player = u'\u263A'.encode('utf-8')
+door = u'\u256C'.encode('utf-8')
+path = u'\u2591'.encode('utf-8')
 
 def initCurses():
     stdscr = curses.initscr()
@@ -13,6 +15,7 @@ def initCurses():
     curses.init_pair(1, curses.COLOR_YELLOW, curses.COLOR_BLACK)
     curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLACK)
     curses.init_pair(3, curses.COLOR_GREEN, curses.COLOR_BLACK)
+    curses.init_pair(4, curses.COLOR_RED, curses.COLOR_BLACK)
 
     curses.noecho()
     curses.cbreak()
@@ -28,4 +31,10 @@ def addMapToWin(map, win):
                 win.addstr(y, x, "#", curses.color_pair(2))
             if (map[pos] == '.'):
                 win.addstr(y, x, ".", curses.color_pair(3))
+            if (map[pos] == '*'):
+                win.addstr(y, x, "*", curses.color_pair(4))
+            if (map[pos] == door):
+                win.addstr(y, x, door, curses.color_pair(2))
+            if (map[pos] == path):
+                win.addstr(y, x, path, curses.color_pair(2))
     return win
