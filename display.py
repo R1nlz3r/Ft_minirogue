@@ -26,7 +26,7 @@ def initCurses():
 
 def addStatsToWin(win, player):
     win.addstr(SCR_SIZE_Y - 1, 0, "Life: %s(%s)               Gold: %s" \
-        % (player[3], player[4], player[2]), curses.color_pair(1))
+        % (player.life, player.maxLife, player.gold), curses.color_pair(1))
     return win
 
 def addMapToWin(map, win):
@@ -34,17 +34,17 @@ def addMapToWin(map, win):
         for y in range (0, SCR_SIZE_Y):
             pos = utils.getPosInList(x, y)
             if (map[pos] == u'\u2554'.encode('utf-8')):
-                win.addstr(y, x, u'\u2554'.encode('utf-8'), curses.color_pair(2))
+                win.addstr(y, x, u'\u2554'.encode('utf-8'), curses.color_pair(4))
             if (map[pos] == u'\u255D'.encode('utf-8')):
-                win.addstr(y, x, u'\u255D'.encode('utf-8'), curses.color_pair(2))
+                win.addstr(y, x, u'\u255D'.encode('utf-8'), curses.color_pair(4))
             if (map[pos] == u'\u2557'.encode('utf-8')):
-                win.addstr(y, x, u'\u2557'.encode('utf-8'), curses.color_pair(2))
+                win.addstr(y, x, u'\u2557'.encode('utf-8'), curses.color_pair(4))
             if (map[pos] == u'\u255A'.encode('utf-8')):
-                win.addstr(y, x, u'\u255A'.encode('utf-8'), curses.color_pair(2))
+                win.addstr(y, x, u'\u255A'.encode('utf-8'), curses.color_pair(4))
             if (map[pos] == u'\u2551'.encode('utf-8')):
-                win.addstr(y, x, u'\u2551'.encode('utf-8'), curses.color_pair(2))
+                win.addstr(y, x, u'\u2551'.encode('utf-8'), curses.color_pair(4))
             if (map[pos] == u'\u2550'.encode('utf-8')):
-                win.addstr(y, x, u'\u2550'.encode('utf-8'), curses.color_pair(2))
+                win.addstr(y, x, u'\u2550'.encode('utf-8'), curses.color_pair(4))
             if (map[pos] == '.'):
                 win.addstr(y, x, ".", curses.color_pair(3))
             if (map[pos] == '*'):
@@ -56,7 +56,7 @@ def addMapToWin(map, win):
             if (map[pos] == 'S'):
                 win.addstr(y, x, "S")
             if (map[pos] == door):
-                win.addstr(y, x, door, curses.color_pair(2))
+                win.addstr(y, x, door, curses.color_pair(4))
             if (map[pos] == path):
                 win.addstr(y, x, path, curses.color_pair(2))
     return win

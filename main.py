@@ -11,51 +11,54 @@ def run(win, map, stdscr):
 
     c = 0
     while True:
-        pos = utils.getPosInList(player[0], player[1])
+        pos = utils.getPosInList(player.pos_x, player.pos_y)
         if c == 27:
             win.clear()
             win.refresh()
             break
-        if c == curses.KEY_DOWN and player[1] < display.SCR_SIZE_Y - 2:
+        if c == curses.KEY_DOWN and player.pos_y < display.SCR_SIZE_Y - 2:
             if not (map[pos + display.SCR_SIZE_X] == u'\u2550'.encode('utf-8') \
                 or map[pos + display.SCR_SIZE_X] == 'S' \
                 or map[pos + display.SCR_SIZE_X] == 'B' \
                 or map[pos + display.SCR_SIZE_X] == ' '):
-                player[1] += 1
-        if c == curses.KEY_UP and player[1] > 0:
+                player.pos_y += 1
+        if c == curses.KEY_UP and player.pos_y > 0:
             if not (map[pos - display.SCR_SIZE_X] == u'\u2550'.encode('utf-8') \
                 or map[pos - display.SCR_SIZE_X] == 'S' \
                 or map[pos - display.SCR_SIZE_X] == 'B' \
                 or map[pos - display.SCR_SIZE_X] == ' '):
-                player[1] -= 1
-        if c == curses.KEY_RIGHT and player[0] < display.SCR_SIZE_X - 2:
+                player.pos_y -= 1
+        if c == curses.KEY_RIGHT and player.pos_x < display.SCR_SIZE_X - 2:
             if not (map[pos + 1] == u'\u2551'.encode('utf-8') \
                 or map[pos + 1] == 'S' \
                 or map[pos + 1] == 'B' \
                 or map[pos + 1] == ' '):
-                player[0] += 1
-        if c == curses.KEY_LEFT and player[0] > 0:
+                player.pos_x += 1
+        if c == curses.KEY_LEFT and player.pos_x > 0:
             if not (map[pos - 1] == u'\u2551'.encode('utf-8') \
                 or map[pos - 1] == 'S' \
                 or map[pos - 1] == 'B' \
                 or map[pos - 1] == ' '):
-                player[0] -= 1
+                player.pos_x -= 1
 
-        pos = utils.getPosInList(player[0], player[1])
+        pos = utils.getPosInList(player.pos_x, player.pos_y)
         if map[pos] == '*':
             map[pos] = '.'
-            player[2] += 10
+            player.gold += 10
         elif map[pos] == u'\u2667'.encode('utf-8'):
             map[pos] = '.'
-            if (player[3] + 10 > player[4]):
-                player[3] = player[4]
+            if (player.life + 10 > player[4]):
+                player.life = player.maxLife
             else:
-                player[3] += 10
+                player.life += 10
         win.clear()
         win = display.addMapToWin(map, win)
         win = display.addStatsToWin(win, player)
-        win.addstr(player[1], player[0], display.player, curses.color_pair(1))
+        win.addstr(player.pos_y, player.pos_x, display.player, curses.color_pair(1))
         win.refresh()
+        if (player.life <= 0):
+            utils.you_died(curses, win, stdscr, player)
+            break
         c = stdscr.getch()
 
 def main():
