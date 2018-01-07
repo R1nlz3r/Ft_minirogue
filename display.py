@@ -25,8 +25,8 @@ def initCurses():
     return stdscr
 
 def addStatsToWin(win, player):
-    win.addstr(SCR_SIZE_Y - 1, 0, "Life: %s(%s)               Gold: %s" \
-        % (player.life, player.maxLife, player.gold), curses.color_pair(1))
+    win.addstr(SCR_SIZE_Y - 1, 0, "Life: %s(%s)               Gold: %s            Turns: %d" \
+        % (player.life, player.maxLife, player.gold, player.turns), curses.color_pair(1))
     return win
 
 def addMapToWin(map, win):

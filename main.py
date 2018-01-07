@@ -138,6 +138,7 @@ def run(win, map, stdscr):
         if (player.life <= 0):
             utils.you_died(curses, win, stdscr, player)
             break
+        player.turns += 1
         c = stdscr.getch()
 
 def main():

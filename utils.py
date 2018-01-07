@@ -55,7 +55,7 @@ def getFirstStartingPos(map):
                 playr.pos_x = x
                 playr.pos_y = y
     playr.gold = 0
-    playr.life = 10
+    playr.life = 100
     playr.maxLife = 100
 
     return playr
@@ -63,6 +63,7 @@ def getFirstStartingPos(map):
 def you_died(curses, win, stdscr, player):
     win.clear()
     win.addstr(display.SCR_SIZE_Y / 2, display.SCR_SIZE_X / 2 - 5, "YOU DIED !", curses.color_pair(4))
+    win.addstr(display.SCR_SIZE_Y / 2 + 1, display.SCR_SIZE_X / 2 - 8, "you had %d gold coins" % player.gold, curses.color_pair(1))
     win.refresh()
     c = 0
     while c != 27:
@@ -96,3 +97,4 @@ class player:
         s.maxLife = 100
         s.gold = 0
         s.attack = 3
+        s.turns = 0
