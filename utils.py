@@ -47,16 +47,12 @@ def getRandomDot(map):
 
     return pos_monster
 
-def getFirstStartingPos(map):
-    playr = player()
+def getFirstStartingPos(map, playr):
     for x in range (display.SCR_SIZE_X):
         for y in range (display.SCR_SIZE_Y):
             if (map[getPosInList(x, y)] == '.'):
                 playr.pos_x = x
                 playr.pos_y = y
-    playr.gold = 0
-    playr.life = 100
-    playr.maxLife = 100
 
     return playr
 
@@ -98,3 +94,5 @@ class player:
         s.gold = 0
         s.attack = 3
         s.turns = 0
+        s.level = 0
+        s.kill = 0

@@ -9,9 +9,9 @@ import time
 
 locale.setlocale(locale.LC_ALL, '')
 
-def run(win, map, stdscr):
+def run(win, map, stdscr, player):
     map = mapGenerator.initMap()
-    player = utils.getFirstStartingPos(map)
+    player = utils.getFirstStartingPos(map, player)
     monsters = [utils.monster(0)] * 20
     nbMonsters = random.randint(3, 10)
     for i in range(20):
@@ -33,7 +33,7 @@ def run(win, map, stdscr):
     win.clear()
     win = display.addMapToWin(map, win)
     win = display.addStatsToWin(win, player)
-    win.addstr(player[1], player[0], display.player, curses.color_pair(1))
+    win.addstr(player.pos_y, player.pos_x, display.player, curses.color_pair(1))
     win.refresh()
 
     time.sleep(1)
@@ -128,7 +128,7 @@ def run(win, map, stdscr):
         pos = utils.getPosInList(player.pos_x, player.pos_y)
         if map[pos] == u'\u25E2'.encode('utf-8'):
             win.clear()
-            run(win, map, stdscr)
+            run(win, map, stdscr, player)
             break
         if map[pos] == '*':
             map[pos] = '.'
@@ -156,7 +156,11 @@ def run(win, map, stdscr):
 def main():
     stdscr = display.initCurses()
     win = curses.newwin(display.SCR_SIZE_Y, display.SCR_SIZE_X)
-    run(win, map, stdscr)
+    playr = utils.player()
+    playr.gold = 0
+    playr.life = 100
+    playr.maxLife = 100
+    run(win, map, stdscr, playr)
 
     curses.nocbreak()
     stdscr.keypad(0)
