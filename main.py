@@ -9,6 +9,7 @@ locale.setlocale(locale.LC_ALL, '')
 def run(win, map, stdscr):
     player = utils.getFirstStartingPos(map)
 
+    c = 0;
     while True:
         pos = utils.getPosInList(player[0], player[1])
         if c == 27:
@@ -17,24 +18,44 @@ def run(win, map, stdscr):
             break
         if c == curses.KEY_DOWN and player[1] < display.SCR_SIZE_Y - 2:
             if not (map[pos + display.SCR_SIZE_X] == u'\u2550'.encode('utf-8') \
+                or map[pos + display.SCR_SIZE_X] == u'\u2551'.encode('utf-8') \
+                or map[pos + display.SCR_SIZE_X] == u'\u2554'.encode('utf-8') \
+                or map[pos + display.SCR_SIZE_X] == u'\u255D'.encode('utf-8') \
+                or map[pos + display.SCR_SIZE_X] == u'\u2557'.encode('utf-8') \
+                or map[pos + display.SCR_SIZE_X] == u'\u255A'.encode('utf-8') \
                 or map[pos + display.SCR_SIZE_X] == 'S' \
                 or map[pos + display.SCR_SIZE_X] == 'B' \
                 or map[pos + display.SCR_SIZE_X] == ' '):
                 player[1] += 1
         if c == curses.KEY_UP and player[1] > 0:
             if not (map[pos - display.SCR_SIZE_X] == u'\u2550'.encode('utf-8') \
+                or map[pos - display.SCR_SIZE_X] == u'\u2551'.encode('utf-8') \
+                or map[pos - display.SCR_SIZE_X] == u'\u2554'.encode('utf-8') \
+                or map[pos - display.SCR_SIZE_X] == u'\u255D'.encode('utf-8') \
+                or map[pos - display.SCR_SIZE_X] == u'\u2557'.encode('utf-8') \
+                or map[pos - display.SCR_SIZE_X] == u'\u255A'.encode('utf-8') \
                 or map[pos - display.SCR_SIZE_X] == 'S' \
                 or map[pos - display.SCR_SIZE_X] == 'B' \
                 or map[pos - display.SCR_SIZE_X] == ' '):
                 player[1] -= 1
         if c == curses.KEY_RIGHT and player[0] < display.SCR_SIZE_X - 2:
-            if not (map[pos + 1] == u'\u2551'.encode('utf-8') \
+            if not (map[pos + 1] == u'\u2550'.encode('utf-8') \
+                or map[pos + 1] == u'\u2551'.encode('utf-8') \
+                or map[pos + 1] == u'\u2554'.encode('utf-8') \
+                or map[pos + 1] == u'\u255D'.encode('utf-8') \
+                or map[pos + 1] == u'\u2557'.encode('utf-8') \
+                or map[pos + 1] == u'\u255A'.encode('utf-8') \
                 or map[pos + 1] == 'S' \
                 or map[pos + 1] == 'B' \
                 or map[pos + 1] == ' '):
                 player[0] += 1
         if c == curses.KEY_LEFT and player[0] > 0:
-            if not (map[pos - 1] == u'\u2551'.encode('utf-8') \
+            if not (map[pos - 1] == u'\u2550'.encode('utf-8') \
+                or map[pos - 1] == u'\u2551'.encode('utf-8') \
+                or map[pos - 1] == u'\u2554'.encode('utf-8') \
+                or map[pos - 1] == u'\u255D'.encode('utf-8') \
+                or map[pos - 1] == u'\u2557'.encode('utf-8') \
+                or map[pos - 1] == u'\u255A'.encode('utf-8') \
                 or map[pos - 1] == 'S' \
                 or map[pos - 1] == 'B' \
                 or map[pos - 1] == ' '):
