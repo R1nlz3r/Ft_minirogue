@@ -6,6 +6,7 @@ SCR_SIZE_Y = 26
 SCR_SIZE_X = 81
 
 player = u'\u263A'.encode('utf-8')
+door = u'\u256C'.encode('utf-8')
 
 def initCurses():
     stdscr = curses.initscr()
@@ -31,4 +32,6 @@ def addMapToWin(map, win):
                 win.addstr(y, x, ".", curses.color_pair(3))
             if (map[pos] == '*'):
                 win.addstr(y, x, "*", curses.color_pair(4))
+            if (map[pos] == door):
+                win.addstr(y, x, door, curses.color_pair(2))
     return win

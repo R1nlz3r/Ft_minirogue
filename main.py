@@ -7,10 +7,7 @@ import utils
 locale.setlocale(locale.LC_ALL, '')
 
 def run(win, map, stdscr):
-    player = utils.getFirstStartingPos(map) 
-
-    win.addstr(player[1], player[0], display.player, curses.color_pair(1))
-    win.refresh()
+    player = utils.getFirstStartingPos(map)
 
     while True:
         c = stdscr.getch()
@@ -36,7 +33,6 @@ def run(win, map, stdscr):
 
 def main():
     stdscr = display.initCurses()
-
     map = mapGenerator.initMap()
 
     win = curses.newwin(display.SCR_SIZE_Y, display.SCR_SIZE_X)
