@@ -23,12 +23,12 @@ def run(win, map, stdscr, player):
         type = random.randint(1, 4)
         if (type == 1):
             monsters[i].type = utils.BAT
-            monsters[i].life = 6
-            monsters[i].attack = 3
+            monsters[i].life = 6 + player.level
+            monsters[i].attack = 3 + player.level / 3
         else:
             monsters[i].type = utils.SNAKE
-            monsters[i].life = 5
-            monsters[i].attack = 2
+            monsters[i].life = 5 + player.level
+            monsters[i].attack = 2 + player.level / 4
 
     win.clear()
     win = display.addMapToWin(map, win)
@@ -78,7 +78,7 @@ def run(win, map, stdscr, player):
                     monsters[monster_id].life -= random.randint(0, player.attack)
                     if (monsters[monster_id].life <= 0):
                         monsters[monster_id].type = 'A'
-                        player.gold += 30
+                        player.gold += 30 + player.level / 2
                         player.kill += 1
         if c == curses.KEY_UP and player.pos_y > 0:
             if not (map[pos - display.SCR_SIZE_X] == u'\u2550'.encode('utf-8') \
@@ -95,7 +95,7 @@ def run(win, map, stdscr, player):
                     monsters[monster_id].life -= random.randint(0, player.attack)
                     if (monsters[monster_id].life <= 0):
                         monsters[monster_id].type = 'A'
-                        player.gold += 30
+                        player.gold += 30 + player.level / 2
                         player.kill += 1
         if c == curses.KEY_RIGHT and player.pos_x < display.SCR_SIZE_X - 2:
             if not (map[pos + 1] == u'\u2550'.encode('utf-8') \
@@ -112,7 +112,7 @@ def run(win, map, stdscr, player):
                     monsters[monster_id].life -= random.randint(0, player.attack)
                     if (monsters[monster_id].life <= 0):
                         monsters[monster_id].type = 'A'
-                        player.gold += 30
+                        player.gold += 30 + player.level / 2
                         player.kill += 1
         if c == curses.KEY_LEFT and player.pos_x > 0:
             if not (map[pos - 1] == u'\u2550'.encode('utf-8') \
@@ -129,7 +129,7 @@ def run(win, map, stdscr, player):
                     monsters[monster_id].life -= random.randint(0, player.attack)
                     if (monsters[monster_id].life <= 0):
                         monsters[monster_id].type = 'A'
-                        player.gold += 30
+                        player.gold += 30 + player.level / 2
                         player.kill += 1
         pos = utils.getPosInList(player.pos_x, player.pos_y)
         if map[pos] == u'\u25E2'.encode('utf-8'):
@@ -139,13 +139,13 @@ def run(win, map, stdscr, player):
             break
         if map[pos] == '*':
             map[pos] = '.'
-            player.gold += 10
+            player.gold += 10 + player.level / 10
         elif map[pos] == u'\u2667'.encode('utf-8'):
             map[pos] = '.'
             if (player.life + 10 > player.maxLife):
                 player.life = player.maxLife
             else:
-                player.life += 10
+                player.life += 10 + player.level / 4
         win.clear()
         win = display.addMapToWin(map, win)
         win = display.addStatsToWin(win, player)
