@@ -59,7 +59,7 @@ def getFirstStartingPos(map, playr):
 def you_died(curses, win, stdscr, player):
     win.clear()
     win.addstr(display.SCR_SIZE_Y / 2, display.SCR_SIZE_X / 2 - 5, "YOU DIED !", curses.color_pair(4))
-    win.addstr(display.SCR_SIZE_Y / 2 + 1, display.SCR_SIZE_X / 2 - 8, "you had %d gold coins" % player.gold, curses.color_pair(1))
+    win.addstr(display.SCR_SIZE_Y / 2 + 1, display.SCR_SIZE_X / 10, "you had %d gold coins, killed %d monsters and went down to level %d" % (player.gold, player.kill, player.level), curses.color_pair(1))
     win.refresh()
     c = 0
     while c != 27:
@@ -94,5 +94,5 @@ class player:
         s.gold = 0
         s.attack = 3
         s.turns = 0
-        s.level = 0
+        s.level = 1
         s.kill = 0

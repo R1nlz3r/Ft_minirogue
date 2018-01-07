@@ -76,7 +76,7 @@ def run(win, map, stdscr, player):
                     if (monsters[monster_id].life <= 0):
                         monsters[monster_id].type = 'A'
                         player.gold += 30
-
+                        player.kill += 1
         if c == curses.KEY_UP and player.pos_y > 0:
             if not (map[pos - display.SCR_SIZE_X] == u'\u2550'.encode('utf-8') \
                 or map[pos - display.SCR_SIZE_X] == u'\u2551'.encode('utf-8') \
@@ -93,6 +93,7 @@ def run(win, map, stdscr, player):
                     if (monsters[monster_id].life <= 0):
                         monsters[monster_id].type = 'A'
                         player.gold += 30
+                        player.kill += 1
         if c == curses.KEY_RIGHT and player.pos_x < display.SCR_SIZE_X - 2:
             if not (map[pos + 1] == u'\u2550'.encode('utf-8') \
                 or map[pos + 1] == u'\u2551'.encode('utf-8') \
@@ -109,6 +110,7 @@ def run(win, map, stdscr, player):
                     if (monsters[monster_id].life <= 0):
                         monsters[monster_id].type = 'A'
                         player.gold += 30
+                        player.kill += 1
         if c == curses.KEY_LEFT and player.pos_x > 0:
             if not (map[pos - 1] == u'\u2550'.encode('utf-8') \
                 or map[pos - 1] == u'\u2551'.encode('utf-8') \
@@ -125,9 +127,11 @@ def run(win, map, stdscr, player):
                     if (monsters[monster_id].life <= 0):
                         monsters[monster_id].type = 'A'
                         player.gold += 30
+                        player.kill += 1
         pos = utils.getPosInList(player.pos_x, player.pos_y)
         if map[pos] == u'\u25E2'.encode('utf-8'):
             win.clear()
+            player.level += 1
             run(win, map, stdscr, player)
             break
         if map[pos] == '*':
